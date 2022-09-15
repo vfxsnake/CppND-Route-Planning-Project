@@ -20,8 +20,10 @@ float RoutePlanner::CalculateHValue(RouteModel::Node const *node) {
 
 // TODO 4: Complete the AddNeighbors method to expand the current node by adding all unvisited neighbors to the open list.
 // Tips:
-// - For each node in current_node.neighbors, the g_value (g+ distance()). pending to review. 
-
+// - Use the FindNeighbors() method of the current_node to populate current_node.neighbors vector with all the neighbors.
+// - For each node in current_node.neighbors, set the parent(current_node), the h_value (calculate h), the g_value (g+ distance()). 
+// - Use CalculateHValue below to implement the h-Value calculation.
+// - For each node in current_node.neighbors, add the neighbor to open_list and set the node's visited attribute to true.
 
 void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
     current_node->FindNeighbors();
@@ -32,7 +34,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
         // not complety sure of this, it could be the current node g_value + the distance to neighbour
         neighbour->g_value += neighbour->distance(*current_node);
         open_list.push_back(neighbour);
-        current_node->visited = true;
+        neighbour->visited = true;
     }
 }
 
