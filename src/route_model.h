@@ -23,7 +23,7 @@ class RouteModel : public Model {
             return std::sqrt(std::pow((x - other.x), 2) + std::pow((y - other.y), 2));
         }
 
-        bool CalculateCost() const
+        float CalculateCost() const
         {
           return h_value + g_value;
         }
