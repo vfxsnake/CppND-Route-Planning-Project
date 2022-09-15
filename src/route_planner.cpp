@@ -29,13 +29,14 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
         neighbour->visited = true;
         open_list.push_back(neighbour);
     }
+    current_node->visited = true;
 }
 
 RouteModel::Node *RoutePlanner::NextNode() {
     // sort by lamba sort(vector_start, vector_end, [option](element_1, element_2){return result})
     sort(open_list.begin(), open_list.end(), 
          [](RouteModel::Node* a, RouteModel::Node* b)
-         {return a->CalculateCost()<b->CalculateCost();});
+         {return a->CalculateCost() > b->CalculateCost();});
     RouteModel::Node* lower_cost = open_list.back();
     open_list.pop_back();
     return lower_cost;
