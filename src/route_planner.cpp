@@ -24,11 +24,12 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
     {
         neighbour->parent = current_node;
         neighbour->h_value = CalculateHValue(neighbour);
-        // not complety sure of this, it could be the current node g_value + the distance to neighbour
-        neighbour->g_value += neighbour->distance(*current_node);
+        
+        neighbour->g_value = current_node->g_value + neighbour->distance(*current_node);
         neighbour->visited = true;
         open_list.push_back(neighbour);
     }
+    current_node->visited = true;
 }
 
 RouteModel::Node *RoutePlanner::NextNode() {
@@ -40,7 +41,6 @@ RouteModel::Node *RoutePlanner::NextNode() {
     open_list.pop_back();
     return lower_cost;
 }
-
 
 std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node *current_node) {
     // Create path_found vector
@@ -60,14 +60,6 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     return path_found;
 }
 
-
-// TODO 7: Write the A* Search algorithm here.
-// Tips:
-// - Use the AddNeighbors method to add all of the neighbors of the current node to the open_list.
-// - Use the NextNode() method to sort the open_list and return the next node.
-// - When the search has reached the end_node, use the ConstructFinalPath method to return the final path that was found.
-// - Store the final path in the m_Model.path attribute before the method exits. This path will then be displayed on the map tile.
-
 void RoutePlanner::AStarSearch() {
     RouteModel::Node *current_node = nullptr;
     AddNeighbors(start_node);
@@ -84,46 +76,3 @@ void RoutePlanner::AStarSearch() {
     }
 
 }
-
-
-
-
-// /////////////////////// delete me/////////////
-// vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2]) {
-//   // Create the vector of open nodes.
-//   vector<vector<int>> open {};
-  
-//   // Initialize the starting node.
-//   int x = init[0];
-//   int y = init[1];
-//   int g = 0;
-//   int h = Heuristic(x, y, goal[0],goal[1]);
-//   AddToOpen(x, y, g, h, open, grid);
-
-//   while (open.size() > 0) {
-//     // Get the next node
-//     CellSort(&open);
-//     auto current = open.back();
-//     open.pop_back();
-//     x = current[0];
-//     y = current[1];
-//     grid[x][y] = State::kPath;
-
-//     // Check if we're done.
-//     if (x == goal[0] && y == goal[1]) {
-//       // TODO: Set the init grid cell to kStart, and 
-      
-//       // set the goal grid cell to kFinish before returning the grid. 
-//       grid[init[0]][init[1]] = State::kStart;
-//       grid[goal[0]][goal[1]] = State::kFinish;
-//       return grid;
-//     }
-    
-//     // If we're not done, expand search to current node's neighbors.
-//     ExpandNeighbors(current, goal, open, grid);
-//   }
-  
-//   // We've run out of new nodes to explore and haven't found a path.
-//   cout << "No path found!" << "\n";
-//   return std::vector<vector<State>>{};
-// }
