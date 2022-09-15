@@ -29,7 +29,6 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
         neighbour->visited = true;
         open_list.push_back(neighbour);
     }
-    current_node->visited = true;
 }
 
 RouteModel::Node *RoutePlanner::NextNode() {
