@@ -18,13 +18,6 @@ float RoutePlanner::CalculateHValue(RouteModel::Node const *node) {
 }
 
 
-// TODO 4: Complete the AddNeighbors method to expand the current node by adding all unvisited neighbors to the open list.
-// Tips:
-// - Use the FindNeighbors() method of the current_node to populate current_node.neighbors vector with all the neighbors.
-// - For each node in current_node.neighbors, set the parent(current_node), the h_value (calculate h), the g_value (g+ distance()). 
-// - Use CalculateHValue below to implement the h-Value calculation.
-// - For each node in current_node.neighbors, add the neighbor to open_list and set the node's visited attribute to true.
-
 void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
     current_node->FindNeighbors();
     for (auto neighbour: current_node->neighbors)
@@ -38,16 +31,14 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
     }
 }
 
-
-// TODO 5: Complete the NextNode method to sort the open list and return the next node.
-// Tips:
-// - Sort the open_list according to the sum of the h value and g value.
-// - Create a pointer to the node in the list with the lowest sum.
-// - Remove that node from the open_list.
-// - Return the pointer.
-
 RouteModel::Node *RoutePlanner::NextNode() {
-
+    // sort by lamba sort(vector_start, vector_end, [option](element_1, element_2){return result})
+    sort(open_list.begin(), open_list.end(), 
+         [](RouteModel::Node* a, RouteModel::Node* b)
+         {return a->CalculateCost()>b->CalculateCost();});
+    RouteModel::Node* lower_cost = open_list.back();
+    open_list.pop_back();
+    return lower_cost;
 }
 
 
