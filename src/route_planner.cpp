@@ -76,7 +76,7 @@ void RoutePlanner::AStarSearch() {
     {
         current_node = NextNode();
         std::cout << "openlist size after next node: " << open_list.size() << std::endl;
-        std::cout << "current x, y" << current_node->x << current_node->y << std::endl; 
+        std::cout << "current x, y" << current_node->x << " "<< end_node->x << " " << current_node->y << " "<< end_node->y <<std::endl; 
         if (current_node->x == end_node->x && current_node->y == end_node->y)
         {
             m_Model.path = ConstructFinalPath(current_node);
