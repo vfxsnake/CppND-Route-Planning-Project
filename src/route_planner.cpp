@@ -63,7 +63,6 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 void RoutePlanner::AStarSearch() {
     RouteModel::Node *current_node = nullptr;
     AddNeighbors(start_node);
-    std::cout << "openlist size: " << open_list.size() << std::endl;
     while(open_list.size() > 0)
     {
         current_node = NextNode();
