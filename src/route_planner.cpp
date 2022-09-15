@@ -36,7 +36,7 @@ RouteModel::Node *RoutePlanner::NextNode() {
     // sort by lamba sort(vector_start, vector_end, [option](element_1, element_2){return result})
     sort(open_list.begin(), open_list.end(), 
          [](RouteModel::Node* a, RouteModel::Node* b)
-         {return a->CalculateCost() > b->CalculateCost();});
+         {return a->CalculateCost() < b->CalculateCost();});
     RouteModel::Node* lower_cost = open_list.back();
     open_list.pop_back();
     return lower_cost;
@@ -76,8 +76,6 @@ void RoutePlanner::AStarSearch() {
     while(open_list.size() > 0)
     {
         current_node = NextNode();
-        std::cout << "openlist size after next node: " << open_list.size() << std::endl;
-        std::cout << "current x, y" << current_node->x << " "<< end_node->x << " " << current_node->y << " "<< end_node->y <<std::endl; 
         if (current_node->x == end_node->x && current_node->y == end_node->y)
         {
             m_Model.path = ConstructFinalPath(current_node);
